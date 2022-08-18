@@ -3,8 +3,12 @@ import { useContext, useState } from 'react';
 import { styles } from './Styles'
 import {  Text, View , Button, Alert , TextInput , Image ,TouchableOpacity} from 'react-native';
 import Alcohol from './comps/Alcohol';
-import AppStateProvider, { AlcoholStateContext } from './AppStateProvider';
+import Clock from './comps/Clock'
+import AppStateProvider, { AlcoholStateContext, TimeContext, WeightContext } from './AppStateProvider';
 import {Audio} from'expo-av';
+import Home from './comps/Home';
+import Scale from './comps/Scale';
+import ProgresBar from './comps/ProgresBar';
 
 export default function App() {
   const [home, setHome] = useState(true)
@@ -18,10 +22,13 @@ export default function App() {
     if(e==='c'){setB(false);setA(false);setHome(false);setC(true)}
   };  
   const alcoholeContext = useContext(AlcoholStateContext)
+  const timeContext = useContext(TimeContext)
+  const weightContext = useContext(WeightContext)
   const [alcohol, setAlcohol] = useState(alcoholeContext)
-
+  const [time, setTime] = useState(timeContext)
+  const [weight, setWeight] = useState(weightContext)
 const Beep =async()=>{
-    let TuchSound = require('./assets/nav.wav')  
+    let TuchSound = require('./assets/PositiveUbuntu.mp3')  
     let soundObj = new Audio.Sound()
     try {
       await soundObj.loadAsync(TuchSound);
@@ -31,23 +38,22 @@ const Beep =async()=>{
     }
 }
 
-console.log(alcohol)
   return (
     <AppStateProvider>
     <View style={styles.screen}>
       <View style={styles.main}>
         <View style={styles.containerPbar}>  
-        <Text style={{color:'white'}}>Progres Bar Box</Text>
+          <ProgresBar weight={weight} alcohol={alcohol} time={time}/>
         </View> 
         <View style={styles.containerAlertBox}>
           <Text style={{color:'white'}}>Alert Box</Text>
         </View>
         
         <View  style={styles.containerComp}>
-          {home ? (<Text style={{color:'white'}}>Home</Text>):''}
+          {home ? (<Home></Home>):''}
           {a ? (<Alcohol alcohol={alcohol} setAlcohol={setAlcohol}></Alcohol>):''}
-          {b ? (<Text style={{color:'white'}}>Clock</Text>):''}
-          {c ? (<Text style={{color:'white'}}>Scale</Text>):''}  
+          {b ? (<Clock time={time} setTime={setTime}></Clock>):''}
+          {c ? (<Scale weight={weight} setWeight={setWeight}></Scale>):''}  
         </View>
 
         <View style={styles.bar}> 

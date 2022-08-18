@@ -10,7 +10,6 @@ const Alcohol = ({alcohol , setAlcohol}) => {
   const [Wine, setWine] = useState(false)
   const [ammount, setAmmount] = useState(0)
 
-  // {type:"beer",size:300}
 const setDrink=(e)=>{
     if(e==='corona'){setHiniken(false);setVodka(false);setWine(false);setCorona(true); setAlcohol({type:'beer',size:300})}
     if(e==='hiniken'){setCorona(false);setVodka(false);setWine(false);setHiniken(true);setAlcohol({type:'beer',size:500})} 
@@ -76,7 +75,7 @@ const dicrement =()=>{
       </View>
       {Corona|Hiniken|Wine|Vodka ? (
             <View style={alcoholStyle.ammountView}>
-              <TouchableOpacity activeOpacity={0.5} onPress={()=>{setAmmount((ammount-1)); Boop(MinusSound);dicrement();}}><Text style={alcoholStyle.PandM}>-</Text></TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.5} disabled={ammount===0} onPress={()=>{setAmmount((ammount-1)); Boop(MinusSound);dicrement();}}><Text style={alcoholStyle.PandM}>-</Text></TouchableOpacity>
               <TouchableOpacity ><Text style={alcoholStyle.num}>{ammount}</Text></TouchableOpacity>
               <TouchableOpacity activeOpacity={0.5} onPress={()=>{setAmmount((ammount+1)); Boop(PlusSound);increment()}}><Text style={alcoholStyle.PandM}>+</Text></TouchableOpacity>
             </View>):('')}
